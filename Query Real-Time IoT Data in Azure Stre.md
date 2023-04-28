@@ -5,7 +5,7 @@ In this lab, we supply you with a robust sample of data and a series of real-wor
 ## Solution
  1. Open an incognito or *InPrivate* browser window, and log in to the Azure portal using the credentials provided in the lab environment.
  1. Navigate to the [sample GitHub repository](https://github.com/Azure/azure-stream-analytics/blob/master/Samples/GettingStarted/HelloWorldASA-InputStream.json) to download the data file you will use in the lab.
-    - From the the upper right of the file viewer, click **Raw**.
+    - From the upper right of the file viewer, click **Raw**.
     - Right-click, or CTRL-click depending on your OS and mouse configuration, and select the **Save As** option.
     - Before saving, add a `.JSON` extension to the file name.
 
@@ -16,7 +16,7 @@ In this lab, we supply you with a robust sample of data and a series of real-wor
  1. Under the *Input preview* tab, click **Upload sample input**.
  1. Navigate through your file system to find and upload the `HelloWorldASA-InputStream.json` file you previously downloaded from GitHub.
  1. Click **OK**. You will see a preview of the data displayed in the *Input preview* tab, on the bottom.
- 1. Click **Test query** to run the sample query that is provided in the portal. The query should return 1860 rows with the following four column headers: `time`, `dspl`, `temp`, `hmdt`.
+ 1. Click **Test query** to run the sample query that is provided in the portal. The query should return 1860 rows with the following four column headers: `time`, `dspl`, `temp`, and `hmdt`.
  1. Try creating your own query. This query should alias three of the four column names for better readability and return data from `sensorA`. Reasonable column names could be: `time` (no alias), `SensorName`, `Temperature`, and `Humidity`.
 
 #### Test Your Sample Query
@@ -54,7 +54,7 @@ For the next query, use the query from the last objective as a starting point. Y
 
 
 #### Test Your Query
- 1. Your completed query should look similar to the below example. Note that the solution you create might not be an exact match. As long as your query returns the expected number of rows noted below, the your query is correct:
+ 1. Your completed query should look similar to the below example. Note that the solution you create might not be an exact match. As long as your query returns the expected number of rows noted below, then your query is correct:
 
     ```sql
     SELECT
@@ -77,7 +77,7 @@ For the next query, use the query from the last objective as a starting point. Y
 
 
 ### Query for Average Temperature
-For Query \#3, suppose you want to get the average temperature, every one minute, over all sensors. You need to display two columns: the timestamp representing the minute and the average temperature for that minute.
+For Query \#3, suppose you want to get the average temperature, every one minute, of all sensors. You need to display two columns: the timestamp representing the minute and the average temperature for that minute.
 
  1. To begin, select `System.Timestamp()`, which is a timestamp of each window of time, aliased as `EndOfMinute`. Then, use the `AVG` function on the `temp` column, aliased as `AverageTemp`:
 
@@ -102,7 +102,7 @@ For Query \#3, suppose you want to get the average temperature, every one minute
     GROUP BY TumblingWindow(minute,1)
     ```
 
-### Test Your Query
+#### Test Your Query
  1. Your completed query should look similar to the below example. Note that the solution you create might not be an exact match. As long as it returns the expected results noted in the next steps, then that is fine:
 
     ```sql
@@ -177,4 +177,4 @@ For your final task, create a query that meets the following criteria:
  1. View the results in the *Test results* tab, under the query pane. Correctly written, the query should return 36 rows, with timestamps one minute apart, and the total count of messages sent in the previous five minutes.
 
 ## Conclusion
-Congratulations — you've completed this hands-on lab! Feel free to continue practicing with creating queries based on the data and see what observations you can make from the results.
+Congratulations — you've completed this hands-on lab! Feel free to continue practicing with creating queries based on the data, and see what observations you can make from the results.
