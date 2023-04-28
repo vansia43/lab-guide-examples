@@ -18,12 +18,11 @@ In this lab, we supply you with a robust sample of data and a series of real-wor
  1. Click **OK**. You will see a preview of the data displayed in the *Input preview* tab, on the bottom.
  1. Click **Test query** to run the sample query that is provided in the portal. The query should return 1860 rows with the following four column headers: `time`, `dspl`, `temp`, `hmdt`.
  1. Try creating your own query. This query should alias three of the four column names for better readability and return data from `sensorA`. Reasonable column names could be: `time` (no alias), `SensorName`, `Temperature`, and `Humidity`.
- <div class="page"/>
 
 #### Test Your Sample Query
  1. Your query should look similar to the example below. Note that the solution you create might not be an exact match. As long as it returns the expected results noted in the next steps, then you successfully completed the objective:
 
-    ```
+    ```sql
     SELECT
     time,
     dspl as SensorName,
@@ -38,8 +37,6 @@ In this lab, we supply you with a robust sample of data and a series of real-wor
  1. Above the query pane, click **Test query**.
  1. View the results in the *Test results* tab, under the query pane. Correctly written, your query should return 389 rows.
 
-<div class="page"/>
-
 ### Expand the First Query: Use a `CASE` Statement
 For the next query, use the query from the last objective as a starting point. Your new query should meet the following criteria:
   - Includes a new column called `Status` that returns the string `Alert` if the temperature is above 100 **and** the humidity is below 40.
@@ -47,7 +44,7 @@ For the next query, use the query from the last objective as a starting point. Y
 
  1. To implement this query, use a `CASE` statement that defines the additional criteria and adds on to what you created in the first objective:
 
-    ```
+    ```sql
         CASE
           WHEN temp > 100 AND hmdt < 40 THEN 'Alert'
           ELSE 'OK'
@@ -55,12 +52,11 @@ For the next query, use the query from the last objective as a starting point. Y
     ```
     >**Note:** When you use the `CASE` statement, you should invoke the actual column names rather than their aliases.
 
-<div class="page"/>
 
 #### Test Your Query
  1. Your completed query should look similar to the below example. Note that the solution you create might not be an exact match. As long as your query returns the expected number of rows noted below, the your query is correct:
 
-    ```
+    ```sql
     SELECT
     time,
     dspl as SensorName,
@@ -79,14 +75,13 @@ For the next query, use the query from the last objective as a starting point. Y
  1. Above the query pane, click **Test query**.
  1. View the results in the *Test results* tab, under the query pane. Correctly written, the query should return the same 389 rows as the first query challenge — but with an additional column (i.e., `Status`) that includes an alert when the previously described temperature and humidity conditions are present.
 
-<div class="page"/>
 
 ### Query for Average Temperature
 For Query \#3, suppose you want to get the average temperature, every one minute, over all sensors. You need to display two columns: the timestamp representing the minute and the average temperature for that minute.
 
  1. To begin, select `System.Timestamp()`, which is a timestamp of each window of time, aliased as `EndOfMinute`. Then, use the `AVG` function on the `temp` column, aliased as `AverageTemp`:
 
-    ```
+    ```sql
     SELECT
     System.Timestamp() AS EndOfMinute,
     AVG(temp) as AverageTemp
@@ -97,22 +92,20 @@ For Query \#3, suppose you want to get the average temperature, every one minute
 
  1. Next, use the `TIMESTAMP BY time` clause to use the `time` field from the sample data as the event timestamp:
 
-    ```
+    ```sql
     TIMESTAMP BY time
     ```
 
  1. Finally, use the `TumblingWindow` function to group by and report every `1 minute`:
 
-    ```
+    ```sql
     GROUP BY TumblingWindow(minute,1)
     ```
-
-<div class="page"/>
 
 ### Test Your Query
  1. Your completed query should look similar to the below example. Note that the solution you create might not be an exact match. As long as it returns the expected results noted in the next steps, then that is fine:
 
-    ```
+    ```sql
     SELECT
     System.Timestamp() AS EndOfMinute,
     AVG(temp) as AverageTemp
@@ -126,7 +119,6 @@ For Query \#3, suppose you want to get the average temperature, every one minute
  1. Above the query pane, click **Test query**.
  1. View the results in the *Test results* tab, under the query pane. Correctly written, this query should return 32 rows with average temperatures between 101 and 114 (rounded).
 
-<div class="page"/>
 
 ### Query for `sensorE` Data
 For your final task, create a query that meets the following criteria:
@@ -136,7 +128,7 @@ For your final task, create a query that meets the following criteria:
 
  1. Select `System.Timestamp()`, which is a timestamp of each window of time, aliased as `window_end`. Then, select the total count of events, `COUNT(*)`, aliased as `messages`:
 
-    ```
+    ```sql
     SELECT
         System.Timestamp() as window_end,
         COUNT(*) AS messages
@@ -147,29 +139,28 @@ For your final task, create a query that meets the following criteria:
 
  1. Add the `TIMESTAMP BY time` clause to use the `time` field from the sample data as the event timestamp:
 
-    ```
+    ```sql
     TIMESTAMP BY time
     ```
 
  1. Use the `WHERE` clause to limit the query to selections where the `dspl` column is equal to `sensorE`:
 
-    ```
+    ```sql
     WHERE dspl='sensorE'
     ```
 
  1. Finally, group by a hopping window function to hop each minute, with a window size of five minutes:
 
-    ```
+    ```sql
     GROUP BY
         HOPPINGWINDOW(minute, 5, 1)
     ```
-<div class="page"/>
 
 #### Test Your Query
 
  1. Your completed query should look similar to the below example. Note that the solution you create might not be an exact match. As long as it returns the expected results noted in the next steps, then that is fine:
 
-    ```
+    ```sql
     SELECT
         System.Timestamp() as window_end,
         COUNT(*) AS messages
